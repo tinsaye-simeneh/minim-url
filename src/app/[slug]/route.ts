@@ -1,8 +1,12 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import { supabase } from "@/utils/supabaseClient";
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { slug } = req.query;
+export async function GET(
+  req: Request,
+  { params }: { params: { slug: string } }
+) {
+  const { slug } = params;
+
   const { data, error } = await supabase
     .from("links")
     .select("original_url")
@@ -10,10 +14,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     .single();
 
   if (error || !data) {
-    return res.status(404).json({ message: "Link not found" });
+    return NextResponse.json({ message: "Link not found" }, { status: 404 });
   }
 
-  return res.redirect(301, data.original_url);
-};
-
-export default handler;
+  return NextResponse.redirect(data.original_url, 301);
+}
