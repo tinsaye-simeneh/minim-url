@@ -5,7 +5,7 @@ export async function GET(
   req: Request,
   { params }: { params: Record<string, string> }
 ) {
-  const { slug } = params; // 'slug' is a key in 'params'
+  const { slug } = params;
 
   const { data, error } = await supabase
     .from('links')
