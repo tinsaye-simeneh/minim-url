@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 interface Link {
   id: string;
-  original: string;
+  original_url: string;
   short: string;
 }
 
