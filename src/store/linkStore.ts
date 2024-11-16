@@ -1,10 +1,5 @@
 import { create } from "zustand";
-
-interface Link {
-  id: string;
-  original_url: string;
-  short_url: string;
-}
+import { Link } from "../types/models";
 
 interface LinksState {
   links: Link[];
@@ -13,8 +8,8 @@ interface LinksState {
 }
 
 export const useLinksStore = create<LinksState>((set) => ({
-  links: [],
-  addLink: (link) => set((state) => ({ links: [...state.links, link] })),
+  links: [] as Link[],
+  addLink: (link: Link) => set((state) => ({ links: [...state.links, link] })),
   removeLink: (id) =>
     set((state) => ({ links: state.links.filter((link) => link.id !== id) })),
 }));
