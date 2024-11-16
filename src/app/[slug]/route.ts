@@ -1,11 +1,13 @@
-import { NextResponse } from "next/server";
-import { supabase } from "@/utils/supabaseClient";
+import { NextResponse } from 'next/server';
+import { supabase } from '@/utils/supabaseClient';
 
-export async function GET(
-  req: Request,
-  { params }: { params: Record<string, string> }
-) {
-  const { slug } = params;
+export async function GET(req: Request) {
+  const url = new URL(req.url);  // Parse the request URL
+  const slug = url.pathname.split('/').pop();  // Extract the slug from the URL
+
+  if (!slug) {
+    return NextResponse.json({ message: 'Slug not found' }, { status: 400 });
+  }
 
   const { data, error } = await supabase
     .from('links')
