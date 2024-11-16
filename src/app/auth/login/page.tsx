@@ -3,7 +3,6 @@
 import {
   TextInput,
   PasswordInput,
-  Checkbox,
   Anchor,
   Paper,
   Title,
@@ -25,12 +24,7 @@ const LoginPage = () => {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput
-          label="Email"
-          placeholder="you@mantine.dev"
-          required
-          color="green"
-        />
+        <TextInput label="Email" placeholder="you@mantine.dev" required />
         <PasswordInput
           label="Password"
           placeholder="Your password"
@@ -38,7 +32,6 @@ const LoginPage = () => {
           mt="md"
         />
         <Group justify="space-between" mt="lg">
-          <Checkbox label="Remember me" />
           <Anchor component="button" size="sm">
             Forgot password?
           </Anchor>
