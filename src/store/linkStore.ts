@@ -3,7 +3,7 @@ import { create } from "zustand";
 interface Link {
   id: string;
   original_url: string;
-  short: string;
+  short_url: string;
 }
 
 interface LinksState {
