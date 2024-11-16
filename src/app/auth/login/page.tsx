@@ -1,3 +1,5 @@
+"use client";
+
 import {
   TextInput,
   PasswordInput,
@@ -10,14 +12,11 @@ import {
   Group,
   Button,
 } from "@mantine/core";
-import classes from "./AuthenticationTitle.module.css";
 
-export function AuthenticationTitle() {
+const LoginPage = () => {
   return (
     <Container size={420} my={40}>
-      <Title ta="center" className={classes.title}>
-        Welcome back!
-      </Title>
+      <Title ta="center">Welcome back!</Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Do not have an account yet?{" "}
         <Anchor size="sm" component="button">
@@ -26,7 +25,12 @@ export function AuthenticationTitle() {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput label="Email" placeholder="you@mantine.dev" required />
+        <TextInput
+          label="Email"
+          placeholder="you@mantine.dev"
+          required
+          color="green"
+        />
         <PasswordInput
           label="Password"
           placeholder="Your password"
@@ -45,4 +49,6 @@ export function AuthenticationTitle() {
       </Paper>
     </Container>
   );
-}
+};
+
+export default LoginPage;
