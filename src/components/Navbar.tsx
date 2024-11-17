@@ -8,12 +8,18 @@ import {
   Stack,
 } from "@mantine/core";
 import { useState } from "react";
-import { FiLink } from "react-icons/fi";
+import { FiLink } from "react-icons/fi"; // Optional icon
+import { useRouter } from "next/navigation"; // For page navigation
 
 export default function Navbar() {
   const [drawerOpened, setDrawerOpened] = useState(false);
+  const router = useRouter();
 
   const toggleDrawer = () => setDrawerOpened((prev) => !prev);
+
+  const handleLoginClick = () => {
+    router.push("/login");
+  };
 
   return (
     <div className="bg-blue-500 shadow-md">
@@ -25,15 +31,20 @@ export default function Navbar() {
               Minim-URL
             </Text>
           </div>
-          <div className="hidden md:flex space-x-6">
+          <div className="hidden md:flex ml-auto space-x-6">
             <Button variant="light" color="white" className="text-white">
               Home
             </Button>
             <Button variant="light" color="white" className="text-white">
-              About
+              Links
             </Button>
-            <Button variant="light" color="white" className="text-white">
-              Contact
+            <Button
+              variant="light"
+              color="white"
+              onClick={handleLoginClick}
+              className="text-white"
+            >
+              Login
             </Button>
           </div>
           <Burger
@@ -63,6 +74,9 @@ export default function Navbar() {
           </Button>
           <Button variant="light" color="blue" onClick={toggleDrawer}>
             Contact
+          </Button>
+          <Button variant="light" color="white" onClick={handleLoginClick}>
+            Login
           </Button>
         </Stack>
       </Drawer>
