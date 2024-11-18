@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Container,
   Group,
@@ -8,8 +10,8 @@ import {
   Stack,
 } from "@mantine/core";
 import { useState } from "react";
-import { FiLink } from "react-icons/fi"; // Optional icon
-import { useRouter } from "next/navigation"; // For page navigation
+import { FiLink } from "react-icons/fi";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [drawerOpened, setDrawerOpened] = useState(false);
