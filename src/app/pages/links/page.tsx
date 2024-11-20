@@ -1,12 +1,21 @@
+"use client";
+
 import React, { useEffect } from "react";
 import { EntityTable } from "@/components/EntityTable";
 import { useLinkStore } from "@/store/linkStore";
+import { Link } from "@/types/models";
 
-const columns = [
-  { label: "Short URL", accessor: "shortUrl", sortable: true },
-  { label: "Original URL", accessor: "originalUrl", sortable: true },
-  { label: "Created At", accessor: "createdAt", sortable: true },
+interface Column<T> {
+  label: string;
+  accessor: keyof T;
+  sortable: boolean;
+}
+
+const columns: Column<Link>[] = [
   { label: "Id", accessor: "id", sortable: true },
+  { label: "Original URL", accessor: "original_url", sortable: true },
+  { label: "Short URL", accessor: "short_url", sortable: true },
+  { label: "Created At", accessor: "created_at", sortable: true },
 ];
 
 export default function LinksListPage() {

@@ -10,9 +10,8 @@ interface Column<T> {
 interface EntityTableProps<T> {
   data: T[];
   columns: Column<T>[];
-  rowsPerPage?: number;
+  rowsPerPage: number;
 }
-
 export function EntityTable<T>({
   data,
   columns,
@@ -23,7 +22,6 @@ export function EntityTable<T>({
   const [search, setSearch] = useState("");
   const [activePage, setActivePage] = useState(1);
 
-  // Filter and sort the data
   const filteredData = data.filter((item) =>
     columns.some((col) =>
       String(item[col.accessor]).toLowerCase().includes(search.toLowerCase())
@@ -45,11 +43,9 @@ export function EntityTable<T>({
     return 0;
   });
 
-  // Pagination
   const startIndex = (activePage - 1) * rowsPerPage;
   const paginatedData = sortedData.slice(startIndex, startIndex + rowsPerPage);
 
-  // Handle sorting
   const handleSort = (column: keyof T) => {
     if (sortKey === column) {
       setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
