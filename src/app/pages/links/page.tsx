@@ -1,10 +1,10 @@
-// pages/LinksListPage.tsx
 "use client";
 
 import React, { useEffect } from "react";
 import { EntityTable } from "@/components/EntityTable";
 import { useLinkStore } from "@/store/linkStore";
 import { Link } from "@/types/models";
+import { useSessionStore } from "@/store/authStore";
 
 interface Column<T> {
   label: string;
@@ -22,10 +22,11 @@ const columns: Column<Link>[] = [
 
 export default function LinksListPage() {
   const { fetchLinks, links, isLoading } = useLinkStore();
+  const { session } = useSessionStore();
 
   useEffect(() => {
-    fetchLinks();
-  }, [fetchLinks]);
+    fetchLinks(session?.user?.id);
+  }, [fetchLinks, session]);
 
   return (
     <div className="p-6">

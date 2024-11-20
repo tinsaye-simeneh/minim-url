@@ -7,7 +7,7 @@ type LinkStore = {
   setLinks: (links: Link[]) => void;
   addLinkToStore: (link: Omit<Link, "id" | "created_at">) => Promise<void>;
   isShortUrlUnique: (short_url: string) => Promise<boolean>;
-  fetchLinks: () => Promise<void>;
+  fetchLinks: (userId?: string) => Promise<void>;
 };
 
 export const useLinkStore = create<LinkStore>((set) => ({
@@ -24,10 +24,10 @@ export const useLinkStore = create<LinkStore>((set) => ({
     throw new Error("Failed to check URL uniqueness.");
   },
 
-  fetchLinks: async () => {
+  fetchLinks: async (userId) => {
     set({ isLoading: true });
     try {
-      const response = await fetch("/api/links");
+      const response = await fetch(`/api/links?user_id=${userId}`);
       const data: Link[] = await response.json();
       set({ links: data });
     } catch (error) {

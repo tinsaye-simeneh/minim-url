@@ -4,11 +4,13 @@ import React, { useState } from "react";
 import { TextInput, Button, Container, Text, Box, Alert } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useLinkStore } from "@/store/linkStore";
+import { notifications } from "@mantine/notifications";
+import { useSessionStore } from "@/store/authStore";
 
 const ShortenerPage = () => {
   const { addLinkToStore } = useLinkStore();
   const [shortenedURL, setShortenedURL] = useState("");
-  const UserId = "cb3e15cd-e8eb-4a42-b39a-f10a5519c948";
+  const { session } = useSessionStore();
 
   const form = useForm({
     initialValues: {
@@ -18,7 +20,9 @@ const ShortenerPage = () => {
 
     validate: {
       original_url: (value) =>
-        /^https?:\/\/[^\s/$.?#].[^\s]*$/.test(value) ? null : "Invalid URL",
+        /^https?:\/\/[^\s/$.?#].[^\s]*$/.test(value)
+          ? null
+          : "Invalid URL, use https:// method",
     },
   });
 
@@ -33,7 +37,7 @@ const ShortenerPage = () => {
     const newLink = {
       original_url: values.original_url,
       short_url,
-      user_id: UserId,
+      user_id: session?.user?.id,
     };
 
     await addLinkToStore(newLink);
@@ -44,7 +48,11 @@ const ShortenerPage = () => {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(shortenedURL);
-    alert("Copied to clipboard!");
+    notifications.show({
+      title: "Copied",
+      message: "URL copied to clipboard",
+      color: "blue",
+    });
   };
 
   return (
