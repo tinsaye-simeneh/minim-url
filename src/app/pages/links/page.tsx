@@ -10,13 +10,14 @@ interface Column<T> {
   label: string;
   accessor: keyof T;
   sortable: boolean;
+  isDate?: boolean;
 }
 
 const columns: Column<Link>[] = [
   { label: "Id", accessor: "id", sortable: true },
   { label: "Original URL", accessor: "original_url", sortable: true },
   { label: "Short URL", accessor: "short_url", sortable: true },
-  { label: "Created At", accessor: "created_at", sortable: true },
+  { label: "Created At", accessor: "created_at", sortable: true, isDate: true },
 ];
 
 export default function LinksListPage() {

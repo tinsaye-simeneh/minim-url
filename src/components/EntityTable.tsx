@@ -20,7 +20,7 @@ interface EntityTableProps<T> {
   data: T[];
   columns: Column<T>[];
   rowsPerPage: number;
-  isLoading: boolean; // Loading state to control loader visibility
+  isLoading: boolean;
 }
 
 export function EntityTable<T>({
@@ -33,8 +33,8 @@ export function EntityTable<T>({
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [search, setSearch] = useState("");
   const [activePage, setActivePage] = useState(1);
-  const [selectedRow, setSelectedRow] = useState<T | null>(null); // Modal state
-  const [modalOpen, setModalOpen] = useState(false); // Modal visibility
+  const [selectedRow, setSelectedRow] = useState<T | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const filteredData = data.filter((item) =>
     columns.some((col) =>
@@ -166,7 +166,6 @@ export function EntityTable<T>({
         className="mt-4"
       />
 
-      {/* Modal for viewing row details */}
       <Modal
         opened={modalOpen}
         onClose={handleCloseModal}
