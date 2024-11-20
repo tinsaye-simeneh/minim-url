@@ -9,3 +9,11 @@ type LinkStore = {
   setOriginalUrl: (originalUrl: string) => void;
   setShortUrl: (shortUrl: string) => void;
 };
+export const useLinkStore = create<LinkStore>((set) => ({
+  links: [],
+  originalUrl: "",
+  shortUrl: "",
+
+  setOriginalUrl: (originalUrl) => set({ originalUrl }),
+  setShortUrl: (shortUrl) => set({ shortUrl }),
+}));
