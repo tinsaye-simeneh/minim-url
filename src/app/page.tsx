@@ -57,7 +57,7 @@ const ShortenerPage = () => {
         <TextInput
           placeholder="Enter your URL"
           value={originalUrl}
-          onChange={(e) => setOrginalUrl(e.target.value)}
+          onChange={(e) => setOriginalUrl(e.target.value)}
           mb="md"
         />
         <Button fullWidth onClick={shortenUrl} loading={loading}>
