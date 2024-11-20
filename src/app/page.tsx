@@ -50,13 +50,13 @@ const ShortenerPage = () => {
   return (
     <Container
       style={{
-        height: "100vh",
+        height: "50vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
       }}
     >
-      <Box className="w-[400px] p-5 rounded-lg shadow-md text-center">
+      <Box className="w-[500px] p-5 rounded-lg shadow-lg text-center">
         <Text size="xl" mb="sm">
           URL Shortener
         </Text>
