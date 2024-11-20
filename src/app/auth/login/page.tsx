@@ -11,7 +11,7 @@ import {
   Text,
   Anchor,
 } from "@mantine/core";
-import { useSessionStore } from "../../../store/authStore";
+import { useSessionStore } from "@/store/authStore";
 import { notifications } from "@mantine/notifications";
 
 const LoginPage = () => {
@@ -30,6 +30,7 @@ const LoginPage = () => {
     } else {
       try {
         await signInStore(email, password);
+
         notifications.show({
           title: "Success",
           message: "Logged in successfully.",
