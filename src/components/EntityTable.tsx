@@ -81,7 +81,7 @@ export function EntityTable<T>({
 
   const formatDate = (date: string) => {
     try {
-      return format(new Date(date), "yyyy-MM-dd HH:mm:ss");
+      return format(new Date(date), "yyyy-MM-dd HH:mm:ss EEEE");
     } catch (error) {
       console.error("Error formatting date:", error);
       return date;
@@ -126,7 +126,7 @@ export function EntityTable<T>({
                     )}
                   </th>
                 ))}
-                <th className="py-2 px-4">Actions</th>
+                <th className="py-2 mr-auto">Actions</th>
               </tr>
             </thead>
             <tbody>
