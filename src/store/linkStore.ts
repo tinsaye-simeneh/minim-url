@@ -1,12 +1,11 @@
 import { create } from "zustand";
 import { Link } from "../types/models";
 
-export const useLinkStore = create((set)) => ({
-    originalUrl:"",
-    shortUrl:"",
-    links: [] as Link[],
-    setOriginalUrl: (originalUrl: string) => set({ originalUrl }),
-    setShortUrl: (shortUrl: string) => set({ shortUrl }),
-    
-});
+type LinkStore = {
+  links: Link[];
+  originalUrl: string;
+  shortUrl: string;
 
+  setOriginalUrl: (originalUrl: string) => void;
+  setShortUrl: (shortUrl: string) => void;
+};
