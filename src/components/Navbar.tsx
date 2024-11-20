@@ -20,7 +20,7 @@ export default function Navbar() {
   const toggleDrawer = () => setDrawerOpened((prev) => !prev);
 
   const handleLoginClick = () => {
-    router.push("/login");
+    router.push("/auth/login");
   };
 
   return (
@@ -34,10 +34,20 @@ export default function Navbar() {
             </Text>
           </div>
           <div className="hidden md:flex ml-auto space-x-6">
-            <Button variant="light" color="white" className="text-white">
+            <Button
+              variant="light"
+              color="white"
+              className="text-white"
+              onClick={() => router.push("/")}
+            >
               Home
             </Button>
-            <Button variant="light" color="white" className="text-white">
+            <Button
+              variant="light"
+              color="white"
+              className="text-white"
+              onClick={() => router.push("/pages/links")}
+            >
               Links
             </Button>
             <Button
