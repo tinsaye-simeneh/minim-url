@@ -42,7 +42,6 @@ const ShortenerPage = () => {
 
     await addLinkToStore(newLink);
     setShortenedURL(`${window.location.origin}/${short_url}`);
-    form.reset();
     form.setFieldValue("short_url", short_url);
   };
 
@@ -79,8 +78,9 @@ const ShortenerPage = () => {
             mb="md"
           />
 
-          <Button fullWidth type="submit">
-            Shorten
+          <Button type="submit">Shorten</Button>
+          <Button type="submit" onClick={form.reset} variant="light" ml="sm">
+            Reset{" "}
           </Button>
         </form>
 
@@ -92,14 +92,18 @@ const ShortenerPage = () => {
 
         {form.values.short_url && (
           <Text size="sm" mt="md">
-            Your shortened URL:
-            <span className="text-blue-600 underline">{shortenedURL}</span>
+            Your URL:{" "}
+            <span className="text-blue-600 underline">
+              {form.values.original_url}{" "}
+            </span>
+            has been shortened to:
+            <span className="text-blue-600 underline ml-2">{shortenedURL}</span>
             <span
               className="mx-auto flex items-center justify-center mt-2 cursor-pointer"
               onClick={handleCopy}
             >
               <BiCopy className=" text-lg text-gray-700 mr-2" />
-              copy
+              copy short URL
             </span>
           </Text>
         )}
