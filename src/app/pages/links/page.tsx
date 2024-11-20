@@ -29,7 +29,9 @@ export default function LinksListPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Links List</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        Links List ({links?.length || 0})
+      </h1>
 
       <EntityTable
         data={links}
