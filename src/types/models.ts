@@ -1,9 +1,9 @@
 export interface Link {
-  id: string;
+  id?: string;
   original_url: string;
   short_url: string;
-  user_id?: string;
-  created_at: string;
+  user_id: string;
+  created_at?: string;
 }
 
 export interface User {

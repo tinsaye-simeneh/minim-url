@@ -3,17 +3,32 @@ import { Link } from "../types/models";
 
 type LinkStore = {
   links: Link[];
-  originalUrl: string;
-  shortUrl: string;
 
-  setOriginalUrl: (originalUrl: string) => void;
-  setShortUrl: (shortUrl: string) => void;
+  setLinks: (links: Link[]) => void;
+  addLinkToStore: (links: Link) => void;
 };
+
 export const useLinkStore = create<LinkStore>((set) => ({
   links: [],
-  originalUrl: "",
-  shortUrl: "",
+  setLinks: (links) => set({ links }),
 
-  setOriginalUrl: (originalUrl) => set({ originalUrl }),
-  setShortUrl: (shortUrl) => set({ shortUrl }),
+  addLinkToStore: async ({
+    original_url,
+    short_url,
+    user_id: userId,
+  }: Link) => {
+    const newLink = { original_url, short_url, user_id: userId };
+    const response = await fetch("/api/shorten-link", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newLink),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      console.error("Error storing link:", data.error);
+    }
+  },
 }));

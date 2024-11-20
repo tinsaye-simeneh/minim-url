@@ -1,33 +1,50 @@
 "use client";
-import { supabase } from "../utils/supabaseClient";
+import { BiCopy } from "react-icons/bi";
 import React, { useState } from "react";
-import { TextInput, Button, Container, Text, Box, Center } from "@mantine/core";
+import { TextInput, Button, Container, Text, Box, Alert } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { useLinkStore } from "@/store/linkStore";
 
 const ShortenerPage = () => {
-  const { originalUrl, setOriginalUrl, shortUrl, setShortUrl } = useLinkStore();
-  const [loading, setLoading] = useState(false);
+  const { addLinkToStore } = useLinkStore();
+  const [shortenedURL, setShortenedURL] = useState("");
+  const UserId = "cb3e15cd-e8eb-4a42-b39a-f10a5519c948";
 
-  const shortenUrl = async () => {
-    if (!originalUrl) return;
-    setLoading(true);
+  const form = useForm({
+    initialValues: {
+      original_url: "",
+      short_url: "",
+    },
 
-    try {
-      const randomString = Math.random().toString(36).substring(2, 8);
-      const shortUrl = `briefly.link/${randomString}`;
+    validate: {
+      original_url: (value) =>
+        /^https?:\/\/[^\s/$.?#].[^\s]*$/.test(value) ? null : "Invalid URL",
+    },
+  });
 
-      // Save to Supabase
-      const { data, error } = await supabase
-        .from("urls")
-        .insert([{ original_url: originalUrl, shortened_url: shortUrl }]);
+  const generateshort_url = () => {
+    return Math.random().toString(36).substring(2, 8);
+  };
 
-      if (error) throw error;
-      setShortUrl(shortUrl);
-    } catch (error) {
-      console.error("Error shortening URL:", error.message);
-    } finally {
-      setLoading(false);
-    }
+  //   eslint-disable-next-line
+  const handleShorten = async (values: any) => {
+    const short_url = generateshort_url();
+
+    const newLink = {
+      original_url: values.original_url,
+      short_url,
+      user_id: UserId,
+    };
+
+    await addLinkToStore(newLink);
+    setShortenedURL(`${window.location.origin}/${short_url}`);
+    form.reset();
+    form.setFieldValue("short_url", short_url);
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(shortenedURL);
+    alert("Copied to clipboard!");
   };
 
   return (
@@ -39,40 +56,43 @@ const ShortenerPage = () => {
         justifyContent: "center",
       }}
     >
-      <Box
-        sx={{
-          width: 400,
-          padding: 20,
-          borderRadius: 10,
-          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-          textAlign: "center",
-        }}
-      >
-        <Text size="xl" weight={700} mb="sm">
+      <Box className="w-[400px] p-5 rounded-lg shadow-md text-center">
+        <Text size="xl" mb="sm">
           URL Shortener
         </Text>
-        <Text size="sm" color="dimmed" mb="lg">
+        <Text size="sm" mb="lg">
           Paste your untidy link to shorten it
         </Text>
-        <TextInput
-          placeholder="Enter your URL"
-          value={originalUrl}
-          onChange={(e) => setOriginalUrl(e.target.value)}
-          mb="md"
-        />
-        <Button fullWidth onClick={shortenUrl} loading={loading}>
-          Shorten
-        </Button>
-        {shortUrl && (
-          <Text size="sm" mt="md" color="teal">
-            Your shortened URL:{" "}
-            <a
-              href={`https://${shortUrl}`}
-              target="_blank"
-              rel="noopener noreferrer"
+
+        <form onSubmit={form.onSubmit(handleShorten)}>
+          <TextInput
+            placeholder="Enter your URL"
+            {...form.getInputProps("original_url")}
+            mb="md"
+          />
+
+          <Button fullWidth type="submit">
+            Shorten
+          </Button>
+        </form>
+
+        {form.errors.original_url && (
+          <Alert title="Error" color="red" mt="md">
+            {form.errors.original_url}
+          </Alert>
+        )}
+
+        {form.values.short_url && (
+          <Text size="sm" mt="md">
+            Your shortened URL:
+            <span className="text-blue-600 underline">{shortenedURL}</span>
+            <span
+              className="mx-auto flex items-center justify-center mt-2 cursor-pointer"
+              onClick={handleCopy}
             >
-              {shortUrl}
-            </a>
+              <BiCopy className=" text-lg text-gray-700 mr-2" />
+              copy
+            </span>
           </Text>
         )}
       </Box>
