@@ -39,7 +39,7 @@ const RegisterPage = () => {
         });
 
         setTimeout(() => {
-          router.push("/login");
+          router.push("/auth/login");
         }, 1000);
         //eslint-disable-next-line
       } catch (error: any) {
@@ -70,7 +70,7 @@ const RegisterPage = () => {
         <Anchor
           size="sm"
           component="button"
-          onClick={() => window.open("/login", "_self")}
+          onClick={() => window.open("/auth/login", "_self")}
         >
           Login
         </Anchor>
