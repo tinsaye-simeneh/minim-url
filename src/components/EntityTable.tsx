@@ -126,7 +126,7 @@ export function EntityTable<T>({
                     )}
                   </th>
                 ))}
-                <th className="py-2 mr-auto">Actions</th>
+                <th className="py-2">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -140,7 +140,7 @@ export function EntityTable<T>({
                           : trimText(String(item[col.accessor]))}
                       </td>
                     ))}
-                    <td className="py-2 px-4">
+                    <td className="py-2 px-4 mx-auto text-center">
                       <Button onClick={() => handleViewClick(item)}>
                         View
                       </Button>
