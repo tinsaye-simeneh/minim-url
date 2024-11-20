@@ -13,11 +13,14 @@ import {
 } from "@mantine/core";
 import { useSessionStore } from "@/store/authStore";
 import { notifications } from "@mantine/notifications";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signInStore } = useSessionStore();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -27,38 +30,46 @@ const LoginPage = () => {
         color: "red",
       });
       return;
-    } else {
-      try {
-        await signInStore(email, password);
+    }
 
+    setLoading(true);
+
+    try {
+      await signInStore(email, password);
+
+      router.push("/");
+      // notifications.show({
+      //   title: "Success",
+      //   message: "Logged in successfully.",
+      //   color: "green",
+      // });
+      //eslint-disable-next-line
+    } catch (error: any) {
+      if (error.message === "Invalid credentials") {
         notifications.show({
-          title: "Success",
-          message: "Logged in successfully.",
-          color: "green",
+          title: "Error",
+          message: "Invalid credentials.",
+          color: "red",
         });
-        // window.open("/", "_self");
-
-        //eslint-disable-next-line
-      } catch (error: any) {
-        if (error.message === "Invalid credentials") {
-          notifications.show({
-            title: "Error",
-            message: "Invalid credentials.",
-            color: "red",
-          });
-        } else {
-          notifications.show({
-            title: "Error",
-            message: "An error occurred. Please try again.",
-            color: "red",
-          });
-        }
+      } else {
+        notifications.show({
+          title: "Error",
+          message: error?.message || "An error occurred. Please try again.",
+          color: "red",
+        });
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <Container my={40} className="w-full">
+      {loading && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center">
+          <div className="spinner spinner-circle" />
+        </div>
+      )}
       <Title className="font-bold text-black flex justify-center items-center">
         Welcome Back!
       </Title>
