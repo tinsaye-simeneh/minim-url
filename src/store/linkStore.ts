@@ -3,14 +3,16 @@ import { Link } from "../types/models";
 
 type LinkStore = {
   links: Link[];
-
+  isLoading: boolean;
   setLinks: (links: Link[]) => void;
   addLinkToStore: (link: Omit<Link, "id" | "created_at">) => Promise<void>;
   isShortUrlUnique: (short_url: string) => Promise<boolean>;
+  fetchLinks: (userId?: string) => Promise<void>;
 };
 
 export const useLinkStore = create<LinkStore>((set) => ({
   links: [],
+  isLoading: false,
   setLinks: (links) => set({ links }),
 
   isShortUrlUnique: async (short_url) => {
@@ -20,6 +22,19 @@ export const useLinkStore = create<LinkStore>((set) => ({
       return !exists;
     }
     throw new Error("Failed to check URL uniqueness.");
+  },
+
+  fetchLinks: async (userId) => {
+    set({ isLoading: true });
+    try {
+      const response = await fetch(`/api/links?user_id=${userId}`);
+      const data: Link[] = await response.json();
+      set({ links: data });
+    } catch (error) {
+      console.error("Error fetching links:", error);
+    } finally {
+      set({ isLoading: false }); // End loading
+    }
   },
 
   addLinkToStore: async ({

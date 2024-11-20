@@ -11,18 +11,16 @@ import {
   Text,
   Anchor,
 } from "@mantine/core";
-import { useSessionStore } from "@/store/authStore";
-import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/navigation";
+import { signUp } from "@/utils/auth";
+import { notifications } from "@mantine/notifications";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signInStore } = useSessionStore();
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = async () => {
+  const handleSignUp = async () => {
     if (!email || !password) {
       notifications.show({
         title: "Error",
@@ -30,57 +28,51 @@ const LoginPage = () => {
         color: "red",
       });
       return;
-    }
+    } else {
+      try {
+        await signUp(email, password);
 
-    setLoading(true);
-
-    try {
-      await signInStore(email, password);
-
-      router.push("/");
-      // notifications.show({
-      //   title: "Success",
-      //   message: "Logged in successfully.",
-      //   color: "green",
-      // });
-      //eslint-disable-next-line
-    } catch (error: any) {
-      if (error.message === "Invalid credentials") {
         notifications.show({
-          title: "Error",
-          message: "Invalid credentials.",
-          color: "red",
+          title: "Success",
+          message: "Account created successfully.",
+          color: "green",
         });
-      } else {
-        notifications.show({
-          title: "Error",
-          message: error?.message || "An error occurred. Please try again.",
-          color: "red",
-        });
+
+        setTimeout(() => {
+          router.push("/auth/login");
+        }, 1000);
+        //eslint-disable-next-line
+      } catch (error: any) {
+        if (error.message === "Email already in use") {
+          notifications.show({
+            title: "Error",
+            message: "Email already in use.",
+            color: "red",
+          });
+        } else {
+          notifications.show({
+            title: "Error",
+            message: "An error occurred. Please try again.",
+            color: "red",
+          });
+        }
       }
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
     <Container my={40} className="w-full">
-      {loading && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center">
-          <div className="spinner spinner-circle" />
-        </div>
-      )}
       <Title className="font-bold text-black flex justify-center items-center">
-        Welcome Back!
+        Create Your Account
       </Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
-        Do not have an account yet?{" "}
+        Already have an account?{" "}
         <Anchor
           size="sm"
           component="button"
-          onClick={() => window.open("/auth/signup", "_self")}
+          onClick={() => window.open("/auth/login", "_self")}
         >
-          Create account
+          Login
         </Anchor>
       </Text>
 
@@ -90,7 +82,7 @@ const LoginPage = () => {
         p={30}
         mt={30}
         radius="md"
-        className="md:w-96 w-full mx-auto"
+        className="mx-auto md:w-96 w-full"
       >
         <TextInput
           label="Email"
@@ -118,14 +110,14 @@ const LoginPage = () => {
         <Button
           fullWidth
           mt="xl"
-          onClick={handleLogin}
+          onClick={handleSignUp}
           className="bg-blue-950 hover:bg-blue-900"
         >
-          Login
+          Register
         </Button>
       </Paper>
     </Container>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
