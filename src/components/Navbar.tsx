@@ -25,11 +25,11 @@ export default function Navbar() {
 
   return (
     <div className="bg-blue-500 shadow-md">
-      <Container size="xl" className="py-4 flex justify-between items-center">
+      <Container size="xl" className="py-4 flex justify-between items-center ">
         <Group className="w-full">
           <div className="flex items-center space-x-2">
             <FiLink size={24} color="white" />
-            <Text color="white" size="lg">
+            <Text size="lg" className="text-white">
               Minim-URL
             </Text>
           </div>
@@ -54,7 +54,7 @@ export default function Navbar() {
             onClick={toggleDrawer}
             color="white"
             size={30}
-            className="md:hidden"
+            className="md:hidden ml-auto"
           />
         </Group>
       </Container>
