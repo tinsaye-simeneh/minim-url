@@ -11,15 +11,16 @@ import {
   Text,
   Anchor,
 } from "@mantine/core";
-import { useSessionStore } from "../../../store/authStore";
+import { useRouter } from "next/navigation";
+import { signUp } from "@/utils/auth";
 import { notifications } from "@mantine/notifications";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signInStore } = useSessionStore();
+  const router = useRouter();
 
-  const handleLogin = async () => {
+  const handleSignUp = async () => {
     if (!email || !password) {
       notifications.show({
         title: "Error",
@@ -29,20 +30,23 @@ const LoginPage = () => {
       return;
     } else {
       try {
-        await signInStore(email, password);
+        await signUp(email, password);
+
         notifications.show({
           title: "Success",
-          message: "Logged in successfully.",
+          message: "Account created successfully.",
           color: "green",
         });
-        window.open("/", "_self");
 
+        setTimeout(() => {
+          router.push("/login");
+        }, 1000);
         //eslint-disable-next-line
       } catch (error: any) {
-        if (error.message === "Invalid credentials") {
+        if (error.message === "Email already in use") {
           notifications.show({
             title: "Error",
-            message: "Invalid credentials.",
+            message: "Email already in use.",
             color: "red",
           });
         } else {
@@ -59,16 +63,16 @@ const LoginPage = () => {
   return (
     <Container my={40} className="w-full">
       <Title className="font-bold text-black flex justify-center items-center">
-        Welcome Back!
+        Create Your Account
       </Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
-        Do not have an account yet?{" "}
+        Already have an account?{" "}
         <Anchor
           size="sm"
           component="button"
-          onClick={() => window.open("/register", "_self")}
+          onClick={() => window.open("/login", "_self")}
         >
-          Create account
+          Login
         </Anchor>
       </Text>
 
@@ -78,7 +82,7 @@ const LoginPage = () => {
         p={30}
         mt={30}
         radius="md"
-        className="md:w-96 w-full mx-auto"
+        className="mx-auto md:w-96 w-full"
       >
         <TextInput
           label="Email"
@@ -106,14 +110,14 @@ const LoginPage = () => {
         <Button
           fullWidth
           mt="xl"
-          onClick={handleLogin}
+          onClick={handleSignUp}
           className="bg-blue-950 hover:bg-blue-900"
         >
-          Login
+          Register
         </Button>
       </Paper>
     </Container>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
