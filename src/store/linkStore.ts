@@ -3,10 +3,10 @@ import { Link } from "../types/models";
 
 type LinkStore = {
   links: Link[];
-
   setLinks: (links: Link[]) => void;
   addLinkToStore: (link: Omit<Link, "id" | "created_at">) => Promise<void>;
   isShortUrlUnique: (short_url: string) => Promise<boolean>;
+  fetchLinks: () => Promise<void>;
 };
 
 export const useLinkStore = create<LinkStore>((set) => ({
@@ -20,6 +20,16 @@ export const useLinkStore = create<LinkStore>((set) => ({
       return !exists;
     }
     throw new Error("Failed to check URL uniqueness.");
+  },
+
+  fetchLinks: async () => {
+    try {
+      const response = await fetch("/api/links");
+      const data: Link[] = await response.json();
+      set({ links: data });
+    } catch (error) {
+      console.error("Error fetching links:", error);
+    }
   },
 
   addLinkToStore: async ({
