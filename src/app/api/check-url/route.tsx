@@ -14,12 +14,14 @@ export async function GET(req: Request) {
 
   const { data, error } = await supabase
     .from("links")
-    .select("id")
+    .select("*")
     .eq("short_url", short_url)
     .single();
 
-  if (error && error.code !== "PGRST116") {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    console.error("Supabase query error:", error);
+  } else {
+    console.log("Supabase query result:", data);
   }
 
   return NextResponse.json({ exists: !!data });
