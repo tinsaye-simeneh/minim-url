@@ -41,10 +41,10 @@ export default function Navbar() {
               Links
             </Button>
             <Button
-              variant="light"
+              variant="filled"
               color="white"
               onClick={handleLoginClick}
-              className="text-white"
+              className="text-black"
             >
               Login
             </Button>
@@ -72,12 +72,9 @@ export default function Navbar() {
             Home
           </Button>
           <Button variant="light" color="blue" onClick={toggleDrawer}>
-            About
+            Links
           </Button>
-          <Button variant="light" color="blue" onClick={toggleDrawer}>
-            Contact
-          </Button>
-          <Button variant="light" color="white" onClick={handleLoginClick}>
+          <Button variant="filled" color="blue" onClick={handleLoginClick}>
             Login
           </Button>
         </Stack>
