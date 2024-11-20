@@ -3,6 +3,7 @@ import { Link } from "../types/models";
 
 type LinkStore = {
   links: Link[];
+  isLoading: boolean;
   setLinks: (links: Link[]) => void;
   addLinkToStore: (link: Omit<Link, "id" | "created_at">) => Promise<void>;
   isShortUrlUnique: (short_url: string) => Promise<boolean>;
@@ -11,6 +12,7 @@ type LinkStore = {
 
 export const useLinkStore = create<LinkStore>((set) => ({
   links: [],
+  isLoading: false,
   setLinks: (links) => set({ links }),
 
   isShortUrlUnique: async (short_url) => {
@@ -23,12 +25,15 @@ export const useLinkStore = create<LinkStore>((set) => ({
   },
 
   fetchLinks: async () => {
+    set({ isLoading: true });
     try {
       const response = await fetch("/api/links");
       const data: Link[] = await response.json();
       set({ links: data });
     } catch (error) {
       console.error("Error fetching links:", error);
+    } finally {
+      set({ isLoading: false }); // End loading
     }
   },
 

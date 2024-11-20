@@ -1,3 +1,4 @@
+// pages/LinksListPage.tsx
 "use client";
 
 import React, { useEffect } from "react";
@@ -19,7 +20,7 @@ const columns: Column<Link>[] = [
 ];
 
 export default function LinksListPage() {
-  const { fetchLinks, links } = useLinkStore();
+  const { fetchLinks, links, isLoading } = useLinkStore();
 
   useEffect(() => {
     fetchLinks();
@@ -28,7 +29,13 @@ export default function LinksListPage() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Links List</h1>
-      <EntityTable data={links} columns={columns} rowsPerPage={5} />
+
+      <EntityTable
+        data={links}
+        columns={columns}
+        rowsPerPage={5}
+        isLoading={isLoading}
+      />
     </div>
   );
 }
