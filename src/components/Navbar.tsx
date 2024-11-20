@@ -15,6 +15,7 @@ import { useState } from "react";
 import { FiLink } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import { useSessionStore } from "@/store/authStore";
+import { clearSession } from "@/utils/auth";
 
 export default function Navbar() {
   const [drawerOpened, setDrawerOpened] = useState(false);
@@ -25,10 +26,6 @@ export default function Navbar() {
 
   const handleLoginClick = () => {
     router.push("/auth/login");
-  };
-
-  const handleAvatarClick = () => {
-    router.push("/profile"); // Go to the user's profile page
   };
 
   return (
@@ -42,9 +39,8 @@ export default function Navbar() {
             </Text>
           </div>
 
-          {/* Main Navigation Links, shown only if the user is logged in */}
           {session && (
-            <div className="hidden md:flex ml-auto space-x-6">
+            <div className="hidden md:flex mr-auto md:ml-10 space-x-6">
               <Button
                 variant="light"
                 color="white"
@@ -64,7 +60,7 @@ export default function Navbar() {
             </div>
           )}
 
-          <Group className="ml-auto">
+          <Group className="md:ml-auto md:block hidden">
             {session ? (
               <Menu shadow="md" width={200} position="bottom-end">
                 <Menu.Target>
@@ -72,16 +68,13 @@ export default function Navbar() {
                     radius="xl"
                     src={""}
                     alt="Profile"
-                    className="cursor-pointer"
-                    onClick={handleAvatarClick}
+                    className="cursor-pointer bg-white"
                   />
                 </Menu.Target>
                 <Menu.Dropdown>
                   <Menu.Label>Account</Menu.Label>
                   <Menu.Item
-                    onClick={() => {
-                      router.push("/auth/login");
-                    }}
+                    onClick={clearSession}
                     className="text-red-500 hover:bg-red-100"
                   >
                     Logout
@@ -142,15 +135,7 @@ export default function Navbar() {
             >
               Links
             </Button>
-            <Button
-              variant="filled"
-              color="blue"
-              onClick={() => {
-                // Handle logout if needed
-                router.push("/auth/login");
-                setDrawerOpened(false);
-              }}
-            >
+            <Button variant="filled" color="blue" onClick={clearSession}>
               Logout
             </Button>
           </div>

@@ -36,7 +36,7 @@ const LoginPage = () => {
           message: "Logged in successfully.",
           color: "green",
         });
-        window.open("/", "_self");
+        // window.open("/", "_self");
 
         //eslint-disable-next-line
       } catch (error: any) {
