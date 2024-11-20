@@ -56,7 +56,7 @@ const ShortenerPage = () => {
         justifyContent: "center",
       }}
     >
-      <Box className="w-[500px] p-5 rounded-lg shadow-lg text-center">
+      <Box className="w-[500px] p-5 rounded-lg shadow-lg text-center border border-gray-200">
         <Text size="xl" mb="sm">
           URL Shortener
         </Text>
