@@ -27,7 +27,7 @@ export const useLinkStore = create<LinkStore>((set) => ({
   fetchLinks: async (userId) => {
     set({ isLoading: true });
     try {
-      const response = await fetch(`/api/links?user_id=${userId}`);
+      const response = await fetch(`/api/get-links?user_id=${userId}`);
       const data: Link[] = await response.json();
       set({ links: data });
     } catch (error) {
