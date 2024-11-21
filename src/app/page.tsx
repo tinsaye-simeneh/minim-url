@@ -1,7 +1,15 @@
 "use client";
 import { BiCopy } from "react-icons/bi";
 import React, { useState } from "react";
-import { TextInput, Button, Container, Text, Box, Alert } from "@mantine/core";
+import {
+  TextInput,
+  Button,
+  Container,
+  Text,
+  Box,
+  Alert,
+  Loader,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useLinkStore } from "@/store/linkStore";
 import { notifications } from "@mantine/notifications";
@@ -11,6 +19,7 @@ const ShortenerPage = () => {
   const { addLinkToStore } = useLinkStore();
   const [shortenedURL, setShortenedURL] = useState("");
   const { session } = useSessionStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm({
     initialValues: {
@@ -30,19 +39,31 @@ const ShortenerPage = () => {
     return Math.random().toString(36).substring(2, 8);
   };
 
-  //   eslint-disable-next-line
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleShorten = async (values: any) => {
-    const short_url = generateshort_url();
+    setIsLoading(true);
+    try {
+      const short_url = generateshort_url();
 
-    const newLink = {
-      original_url: values.original_url,
-      short_url,
-      user_id: session?.user?.id,
-    };
+      const newLink = {
+        original_url: values.original_url,
+        short_url,
+        user_id: session?.user?.id,
+      };
 
-    await addLinkToStore(newLink);
-    setShortenedURL(`${window.location.origin}/${short_url}`);
-    form.setFieldValue("short_url", short_url);
+      await addLinkToStore(newLink);
+      setShortenedURL(`${window.location.origin}/${short_url}`);
+      form.setFieldValue("short_url", short_url);
+    } catch (error) {
+      console.error("Error shortening URL:", error);
+      notifications.show({
+        title: "Error",
+        message: "Failed to shorten URL",
+        color: "red",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleCopy = () => {
@@ -78,9 +99,14 @@ const ShortenerPage = () => {
             mb="md"
           />
 
-          <Button type="submit">Shorten</Button>
-          <Button type="submit" onClick={form.reset} variant="light" ml="sm">
-            Reset{" "}
+          <Button
+            type="submit"
+            disabled={!form.values.original_url || isLoading}
+          >
+            {isLoading ? <Loader size="xs" color="white" /> : "Shorten"}
+          </Button>
+          <Button type="button" onClick={form.reset} variant="light" ml="sm">
+            Reset
           </Button>
         </form>
 
