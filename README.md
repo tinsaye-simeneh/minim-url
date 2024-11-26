@@ -20,5 +20,5 @@ Hosting: Vercel or any preferred hosting platform
 
 👨‍💻👩‍💻 contributors:
 
-- Hikma Anwar [https://github.com/HikmaAnwar]
-- Tinsaye Simeneh [https://github.com/tinsaye-simeneh]
+- Hikma Anwar: [https://github.com/HikmaAnwar]
+- Tinsaye Simeneh: [https://github.com/tinsaye-simeneh]
