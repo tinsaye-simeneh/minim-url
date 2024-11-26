@@ -17,3 +17,8 @@ Backend: Supabase (Database and API)
 Styling: Mantine, Tailwind CSS
 State Management: Zustand
 Hosting: Vercel or any preferred hosting platform
+
+👨‍💻👩‍💻 contributors:
+
+- Hikma Anwar [https://github.com/HikmaAnwar]
+- Tinsaye Simeneh [https://github.com/tinsaye-simeneh]
