@@ -1,4 +1,4 @@
-🔗 Minim-URL: Link Shortener
+🔗 Minim-URL: Link Shortener site
 
 A simple, efficient link shortener built with Next.js, Supabase, Mantine, Tailwind CSS, and Zustand. This project allows you to shorten your links and manage them through a sleek and modern interface. It is designed for personal use but can be extended for public access in the future.
 
